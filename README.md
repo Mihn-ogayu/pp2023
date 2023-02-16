@@ -6,7 +6,7 @@ Students are expected to:
 * Push your commits regularly, with **proper** commit messages
 
 
-Student Info
+Student Infop
 =========================
 
 * Student Name: Trinh Tien Minh
