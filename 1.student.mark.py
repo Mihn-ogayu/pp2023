@@ -1,64 +1,61 @@
 #function for input student
-def input_students():
-    no_st = int(input("Number of students: "))
-    if no_st <= 0:
-        print("Invalid number")
-        exit()
-    else:
-        stu_list = [[0 for i in range(3)] for j in range(no_st)]
-        for i in range(no_st):
-            stu_list[i][0] = input("Student ID: ")
-            stu_list[i][1] = input("Student Name: ")
-            stu_list[i][2] = input("DOB:")
-    return stu_list
+def input_students(students:list):
+    dict = {}   #temp dict to store student info
+    print("\n")
+    student_id = input("Student ID: ")
+    student_name = input("Student Name: ")
+    student_dob = input("DoB: ")
+    dict["StudentID"] = student_id
+    dict["StudentName"] = student_name
+    dict["DOB"] = student_dob
+    dict["course"] = [ ]
+    students.append(dict)   #append temp dict to students[] list
 
-#function for input corse
-def input_courses():
-    no_co = int(input("Number of courses: "))
-    if no_co <= 0:
-        print("Invalid course")
-        exit()
-    else:
-        co_list = [[0 for i in range (2)] for j in range(no_co)]
-        for i in range(no_co):
-            co_list[i][0] = input("Course ID: ")
-            co_list[i][1] = input("Course name: ")
-    return co_list
-
-#List the students
-def list_students():
-    for i in range(len(student_list)):
-        print("Student ID: ",student_list[i][0])
-        print("Name: ",student_list[i][1])
-        print("DOB: ",student_list[i][2])
-
-#List the courses
-def list_courses():
-    for i in range(len(course_list)):
-        print("Course ID: ",course_list[i][0])
-        print("Name: ",course_list[i][1])
+#function for input courses
+def input_courses(courses:list):
+    dict ={}
+    print("\n")
+    course_id = input("Course ID: ")
+    course_name = input("Course: ")
+    dict["CourseID"] = course_id
+    dict["Course Name"] = course_name
+    courses.append(dict)
 
 #input  student marks for subjects
-def input_marks(co,stu):
-    mark = [[0 for i in range(len(stu))] for j in range(len(co))]
-    for i in range(len(co)):
-        for j in range(len(stu)):
-            mark [i][j] = int(input("Mark for student",stu[i][1],"for subject",co[i][1]))
-    return mark
+def input_marks(students:list,courses:list):
+    print ("\n")
+    course_input = input("Choose course ID:")
+    student_input = input("Choose Student ID:")
+    dict = {}
+    mark = input("Mark:")
+    for course in courses:
+        if course["CourseID"] == course_input:
+            course_name = course["Course Name"]
+    for student in students:
+        if student["StudentID"] == student_input:
+            student["course"].append({"Course Name": course_name, "mark": mark})
 
-#Show student marks function
-def show_student_marks(stu,co):
-    courseID = input("Course ID")
-    for i in range(len(co)):
-        if courseID == co[i][1]:
-            print("Student ",stu[i][1],"Course:",co[i][1],"Mark: ",mark[i][j])  
-        else:
-            exit()
 
-#define student and course lists
-student_list = input_students()
-course_list = input_courses()
+# input_marks(students,courses)
+students = []
+courses = []
 
-list_students()
-list_courses()
+stu_no = int(input("Number of students: "))
+for i in range(stu_no):
+    input_students(students)
+course_no = int(input("Number of courses: "))
+for j in range(course_no):
+    input_courses(courses)
+for student in students:
+    input_marks(students,courses)
+for student in students:
+    print("-----------------")
+    print(f'Name: {student["StudentName"]}' )
+    print(f'ID: {student["StudentID"]}')
+    print(f'DoB:  {student["DOB"]}')
+for course in student["course"]:
+    print(f'Course: {course["Course Name"]}, {course["mark"]}')
 
+print("\n")
+for course in courses:
+    print(course)
