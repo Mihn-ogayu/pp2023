@@ -1,4 +1,4 @@
-#function for input student
+#Define a function to input students
 def input_students(students:list):
     dict = {}   #temp dict to store student info
     print("\n")
@@ -11,7 +11,7 @@ def input_students(students:list):
     dict["course"] = [ ]
     students.append(dict)   #append temp dict to students[] list
 
-#function for input courses
+#Define a function to input courses 
 def input_courses(courses:list):
     dict ={}
     print("\n")
@@ -21,7 +21,7 @@ def input_courses(courses:list):
     dict["Course Name"] = course_name
     courses.append(dict)
 
-#input  student marks for subjects
+#Define a function for inputing marks
 def input_marks(students:list,courses:list):
     print ("\n")
     course_input = input("Choose course ID:")
@@ -36,10 +36,11 @@ def input_marks(students:list,courses:list):
             student["course"].append({"Course Name": course_name, "mark": mark})
 
 
-# input_marks(students,courses)
+#Define student lists and course lists
 students = []
 courses = []
 
+#Testing the functions
 stu_no = int(input("Number of students: "))
 for i in range(stu_no):
     input_students(students)
