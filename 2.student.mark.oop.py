@@ -1,3 +1,6 @@
+# Define classes for Student, Course, Mark, Data
+# Data class is the dictionary data for Students, Courses and Marks
+
 class Student:
     def __init__(self,student_id,student_name,student_dob,GPA):
         self.student_id = student_id
@@ -29,6 +32,7 @@ class Data:
             print(" ")
             student = Student(stu_id,stu_name,stu_dob,None)
             self.student[stu_id] = student
+            # After inputing, store data into student dict
 
     def input_courses(self,x):
         # co_no = int(input("Number of courses: "))
@@ -40,7 +44,9 @@ class Data:
             # co = {}
             course = Course(course_id,course_name)
             self.course[course_id] = course
+            # After inputing, store data into course dict
 
+#   Define method to list students
     def list_student(self):
         print("Displaying students:")
         for student in self.student:
@@ -49,6 +55,8 @@ class Data:
             print(f'Name: {self.student[student].student_name}')
             print(f'Date of Birth: {self.student[student].student_dob}')
         print(" ")  
+        
+#   Define method to list courses
     def list_course(self):
         print("Displaying courses: ")
         for course in self.course:
@@ -56,6 +64,7 @@ class Data:
             print(f'Course Name: {self.course[course].course_name}')
             print(" ")
 
+#   Define method to input marks
     def input_marks(self,x):
         for i in range(x):
             course_input = input("Choose course ID for inputing mark: ")
@@ -75,6 +84,8 @@ class Data:
                 print("Course does not exist")
                 return
         print(" ")
+
+#   Define method to show marks
     def show_marks(self,x):
         for i in range(x):
             course_input = input("Enter course ID to show mark: ")
@@ -82,13 +93,20 @@ class Data:
                 mark = self.mark[student]
                 if mark.course == course_input:
                     print(f'Student ID: {mark.student}\tMark: {mark.mark}')
+
+#   Create a teacher Object that manages the student marks
 teacher = Data()
+
+#   Inputing number of student
 no_stu = int(input("Number of students: \n"))
 teacher.input_students(no_stu)
 teacher.list_student()
+
+#   Inputing number of courses
 no_course = int(input("Number of courses: \n"))
 teacher.input_courses(no_course)
 teacher.list_course()
 
+#   Inputing and showing mark list
 teacher.input_marks(no_course)
 teacher.show_marks(no_course)
