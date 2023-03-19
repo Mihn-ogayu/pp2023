@@ -163,7 +163,7 @@ class Data:
             credit_real = np.append(temp2,temp_credit)
             gpa = np.average(mark_real,weights=credit_real)
             math.floor(gpa*10)/10
-            print(f'The GPA of student {self.student[stu_id].student_name} is {gpa}')
+            print(f'The GPA of student {self.student[stu_id].student_name}  ID: {self.student[stu_id].student_id} is {gpa}')
             print(" ")
 # Define a method to show GPA in decending order
 
