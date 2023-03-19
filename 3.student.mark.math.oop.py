@@ -57,6 +57,7 @@ class Data:
     def list_student(self):
         print("Displaying students:")
         print(f"ID \t\tNAME\t\tDOB")
+        print(f"-"*40)
         for student in self.student:
             print(f'{self.student[student].student_id}\t\t{self.student[student].student_name}\t\t{self.student[student].student_dob}')
             
@@ -85,12 +86,13 @@ class Data:
                     if student in self.student:
                         print(f'\tStudent: {self.student[student].student_name}')
                         input_mark = float(input(f'Mark: '))
-                        while self.is_float(input_mark) == True and self.is_inrange(input_mark) == True:
-                            break
-                        math.floor(input_mark)
-                        mak = Mark(student,course_input,input_mark)
-                        mk = (student,course_input)
-                        self.mark[mk] = mak
+                        if self.is_float(input_mark) == True and self.is_inrange(input_mark) == True:
+                            math.floor(input_mark * 10) / 10
+                            mak = Mark(student,course_input,input_mark)
+                            # mk = (student,course_input)
+                            self.mark[input_mark] = mak
+                        else:
+                            print("Mark is invalid type or out of 0.0 - 20.0 range")
                     else:
                         print("Student does not exist.")
                         break
@@ -100,59 +102,76 @@ class Data:
         print(" ")
 
     def is_float(self,x):
-        try:
-            float(x)
-            return True
-        except ValueError:
-            self.input_marks(x)
+        while True:
+            try:
+                float(x)
+                return True
+            except ValueError:
+                self.input_marks(x)
     def is_inrange(self,x):
-        try:
-            if x in(0.0,20.0):
-                pass
-            return True
-        except IndexError:
-            return False
+        while True:
+            try:
+                if x in(0.0,20.0):
+                    pass
+                return True
+            except IndexError:
+                return False
+            
 #Define method to show marks
     def show_marks(self):
         x = 1
         while x <= len(self.course):
             course_input = input("Enter course ID to show mark: ")
             if course_input in self.course:
-                x+=1
+                x += 1
                 print(f'Course: {self.course[course_input].course_name}, Credits: {self.course[course_input].course_credit}')
                 for student in self.mark:
                     mark = self.mark[student]
                     if mark.course == course_input:
-                        print(f'Student ID: {mark.student}\tMark: {mark.mark}')
+                        print(f'Student ID: {mark.student}\t\tMark: {mark.mark}')
+                print (" ") 
             else:
                 print("Course does not exist! ")
+                print("Please re-enter from the beginning")
                 self.show_marks(x)
         
-
+#Define a method to calculate GPA
     def calculate_GPA(self):
+        temp_credit = []
+        for course in self.course:
+            print(f'Course: {self.course[course].course_name}, Credits: {self.course[course].course_credit}')
+            temp_credit.append(self.course[course].course_credit)
         x = 1
-        marks = np.array([])
-        credits = np.array([])
-        for student in self.student:
-            for marks in self.mark:
-                mark = self.mark[marks]
-                if mark.student == student:
-                    np.append(marks,mark.mark)
-                    np.append(credits,self.course[mark.course].course_credit)
-                
         while x <= len(self.student):
-            x += 1
-            gpa = np.average(marks,xweights=credits)
-        
-        gpa = dict(sorted(gpa.items(),key=lambda item: item[1], reverse=True))
-        for stu_id in gpa:
-            print(f'Student ID: {stu_id}, GPA: {gpa[stu_id]}')
-        print(" ")
-#Define a method to show GPA in decending order
+            stu_id = input("Enter student ID you want to calculate GPA for: ")
+            if stu_id in self.student:
+                x += 1
+                temp_mark = []
+                for mark in self.mark:
+                    mark = self.mark[mark]
+                    if stu_id == mark.student:
+                        # x += 1
+                        temp_mark.append(mark.mark)
+                        # temp_mark = []
+                        # marks = np.append(temp_mark,[mark.mark])
+            else:
+                x=1
+                print("Student ID not found, please re-enter")           
+            temp1 = np.empty(0)
+            temp2 = np.empty(0)
+            mark_real = np.append(temp1,temp_mark)
+            credit_real = np.append(temp2,temp_credit)
+            gpa = np.average(mark_real,weights=credit_real)
+            math.floor(gpa*10)/10
+            print(f'The GPA of student {self.student[stu_id].student_name} is {gpa}')
+            print(" ")
+# Define a method to show GPA in decending order
 
+    def show_GPA(self):
+        pass
 #create a teacher Object that manages the student marks
 teacher = Data()
-# no_stu = int(input("Number of students: \n"))
+
 while True:
     try:
         no_stu = int(input("Number of students: \n"))
@@ -178,3 +197,4 @@ teacher.input_marks()
 teacher.show_marks()
 
 teacher.calculate_GPA()
+# teacher.show_GPA()
