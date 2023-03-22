@@ -222,3 +222,7 @@ teacher.input_marks()
 teacher.show_marks()
 
 teacher.numpytest()
+
+
+# Make seperate modules for domains, view and control
+            
