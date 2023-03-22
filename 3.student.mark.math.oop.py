@@ -5,10 +5,11 @@ import numpy as np
 #Data class is the dictionary data for Students, Courses and Marks
 
 class Student:
-    def __init__(self,student_id,student_name,student_dob):
+    def __init__(self,student_id,student_name,student_dob,student_gpa):
         self.student_id = student_id
         self.student_name = student_name
         self.student_dob = student_dob
+        self.student_gpa = student_gpa
 class Course:
     def __init__(self,course_id,course_name,course_credit):
         self.course_id = course_id
@@ -34,8 +35,9 @@ class Data:
             stu_id = input("Student ID: ")
             stu_name = input("Student name: ")
             stu_dob = input("Date of birth: ")
+            stu_gpa = "N/A"
             print(" ")
-            student = Student(stu_id,stu_name,stu_dob)
+            student = Student(stu_id,stu_name,stu_dob,stu_gpa)
             self.student[stu_id] = student
             #After inputing, store data into student dict
 
@@ -67,11 +69,12 @@ class Data:
         
 #Define method to list courses
     def list_course(self):
-        print("Displaying courses: ")
-        for course in self.course:
-            print(f'Course ID: {self.course[course].course_id}')
-            print(f'Course Name: {self.course[course].course_name}')
-            print(f'Credits: {self.course[course].course_credit}')
+            print("Displaying courses: ")
+
+            print("ID\t\tName\t\tCredits")
+            print("-"*40)
+            for course in self.course:
+                print(f'{self.course[course].course_id}\t\t{self.course[course].course_name}\t\t{self.course[course].course_credit}')
             print(" ")
 
 #Define method to input marks
@@ -162,13 +165,41 @@ class Data:
             mark_real = np.append(temp1,temp_mark)
             credit_real = np.append(temp2,temp_credit)
             gpa = np.average(mark_real,weights=credit_real)
+            self.gpa[stu_id] = gpa
+            self.student[stu_id].student_gpa = gpa
             math.floor(gpa*10)/10
             print(f'The GPA of student {self.student[stu_id].student_name}  ID: {self.student[stu_id].student_id} is {gpa}')
             print(" ")
 # Define a method to show GPA in decending order
 
     def show_GPA(self):
-        pass
+        temp_credit = []
+        for course in self.course:
+            temp_credit.append(self.course[course].course_credit)
+        for stu_id in self.student:
+            if stu_id in self.student:
+                temp_mark = []
+                for mark in self.mark:
+                    mark = self.mark[mark]
+                    if stu_id == mark.student:
+                        temp_mark.append(mark.mark)
+            else:
+                x=1
+                print("Student ID not found, please re-enter")           
+        temp1 = np.empty(0)
+        temp2 = np.empty(0)
+        mark_real = np.append(temp1,temp_mark)
+        credit_real = np.append(temp2,temp_credit)
+        self.gpagpa = np.average(mark_real,weights=credit_real)
+
+        self.gpa = dict(sorted(self.gpa.items(), key=lambda item: item[1], reverse=True))
+        # for stu_id in self.gpa:
+        #     print(f"StudentID: {stu_id.gpa}, GPA: {gpa}")
+        print("Student rankings: ")
+        print("-"*30)
+        print(f'Student ID\t\tStudent Name \t\tGPA')
+        for student in self.gpa:
+            print(f'{self.student[student].student_id}\t\t{self.student[student].student_name}\t\t{self.gpa[student]}')
 #create a teacher Object that manages the student marks
 teacher = Data()
 
@@ -197,4 +228,4 @@ teacher.input_marks()
 teacher.show_marks()
 
 teacher.calculate_GPA()
-# teacher.show_GPA()
+teacher.show_GPA()
