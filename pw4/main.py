@@ -3,12 +3,14 @@ from domains.course import Course
 from domains.mark import Mark
 # import input as ip
 # import output as op
-from input import input_students
-from output import list_students
+from input import input_students,input_courses,input_marks
+from output import list_students,list_courses,show_marks
 import numpy as np
 import math
 import os
-clear = lambda:os.system('clear')
+import time
+import msvcrt as m
+clear = os.system('cls')
 
 
 class Main():
@@ -17,20 +19,29 @@ class Main():
         self.course = {}
         self.mark = {}
         # self.gpa = {}
+    
+    # Adding students
     def add_student(self):
         self.student = input_students()
+
+    # Displaying student info
     def display_students(self):
         list_students(self.student)
 
-    # def add_student(self):
-    #     while True:
-    #         try:
-    #             no_stu = int(input("Number of students: \n"))
-    #             break
-    #         except ValueError:
-    #             print("Not a valid student number, please try again!")
-    #             continue
-    #     self.input_students()
+    # Adding courses
+    def add_course(self):
+        self.course = input_courses()
+
+    # Displaying course info
+    def display_courses(self):
+        list_courses(self.course)
+
+    # Adding mark 
+    def add_mark(self):
+        self.mark = input_marks(self.student,self.course)
+
+    def display_marks(self):
+        show_marks(self.mark,self.course)
 
     def calculate_GPA(self):
         temp_credit = []
@@ -92,11 +103,14 @@ class Main():
         for student in self.gpa:
             print(f'{self.student[student].student_id}\t\t{self.student[student].student_name}\t\t{self.gpa[student]}')
 
+def wait():
+    m.getch()
+
 if __name__ == '__main__':
     teacher = Main()
 
 while True:
-    clear()
+    # clear()
     print("\nStudent Management System")
     print("[1]. Input student")
     print("[2]. Input courses")
@@ -109,16 +123,40 @@ while True:
 
     
     choice = int(input("Your choice: "))
+    print(" ")
     if choice == 1:
-        # teacher.add_student()
-        # clear()
         teacher.add_student()
-        
-    if choice == 2:
-        pass
-    if choice == 3:
-        # teacher.list_students()
+        print("\nInput complete")
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
+    elif choice == 2:
+        teacher.add_course()
+        print("\nInput complete")
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
+    elif choice == 3:
+        clear = os.system('cls')
         teacher.display_students()
-
-        
-        
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
+    elif choice == 4:
+        clear = os.system('cls')
+        teacher.display_courses()
+        print("Press any key to continue")
+        wait()
+    elif choice == 5:
+        teacher.add_mark()
+        print("\nInput complete")
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
+    elif choice == 6:
+        teacher.display_marks()
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
+    else:
+        break
