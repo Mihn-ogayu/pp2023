@@ -42,6 +42,7 @@ class Main():
 
     def display_marks(self):
         show_marks(self.mark,self.course)
+        # print(self.mark)
 
     def calculate_GPA(self):
         temp_credit = []
@@ -106,6 +107,15 @@ class Main():
 def wait():
     m.getch()
 
+def input_choice():
+    while True:
+        try: 
+            x = int(input("Your choice: "))
+            return x
+        except ValueError:
+            print("Not a valid number, try again")
+            continue
+
 if __name__ == '__main__':
     teacher = Main()
 
@@ -122,7 +132,7 @@ while True:
     print("[8]. Student rankings")
 
     
-    choice = int(input("Your choice: "))
+    choice = input_choice()
     print(" ")
     if choice == 1:
         teacher.add_student()
@@ -147,6 +157,7 @@ while True:
         teacher.display_courses()
         print("Press any key to continue")
         wait()
+        clear = os.system('cls')
     elif choice == 5:
         teacher.add_mark()
         print("\nInput complete")
@@ -158,5 +169,10 @@ while True:
         print("Press any key to continue")
         wait()
         clear = os.system('cls')
-    else:
+    elif choice == 7:
+        pass
+    elif choice == 8:
+        pass
+    elif choice == 9:
         break
+

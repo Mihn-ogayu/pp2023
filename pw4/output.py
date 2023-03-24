@@ -35,21 +35,24 @@ def list_courses(courses):
 # Output: {course ID, student ID, mark}
 def show_marks(marks,courses):
     x = 1
-    if len(marks) == 0:
-        print("No mark yet!")
-        return
-    else:
-        while x <= len(courses):
-            course_input = input("Enter course ID to show mark: ")
-            if course_input in courses:
-                x += 1
-                print(f'Course: {courses[course_input].course_name}, Credits: {courses[course_input].course_credit}')
-                for student in mark:
-                    # mark = self.mark[student]
-                    mark = marks[student]
-                    if mark.course == course_input:
-                        print(f'Student ID: {mark.student}\t\tMark: {mark.mark}')
-                print (" ") 
-            else:
-                print("Course does not exist! ")
-                return
+    while x <= len(courses):
+        course_input = input("Enter course ID to show mark: ")
+        if course_input in courses:
+            x += 1
+            print(f'Course: {courses[course_input].course_name}, Credits: {courses[course_input].course_credit}')
+            for student in marks:
+                mark = marks[student]
+                if mark.course == course_input:
+                    print(f'StudentID : {mark.student}\t\tMark: {mark.mark}')
+                print(" ")
+    # for a,b in marks.items():
+    #     # mark = self.mark[student]
+    #     # mark = marks[student]
+    #     # if course.id == course_input:
+    #     #     print(f'Student ID: {student.id}\t\tMark: {mak}')
+    #     print(f'Student ID: {student.student_id}, Student Name: {student.student_name}, Course {course.course_name}, Mark: {mak}')
+    # print (" ") 
+    # # else:
+    # #     print("Course does not exist! ")
+    # #     return
+    

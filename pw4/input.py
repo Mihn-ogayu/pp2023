@@ -50,30 +50,22 @@ def input_courses():
 
 def input_marks(students,courses):
 	x = 1
-	mark = {}
+	temp = {}
 	while x <= len(courses):
 		course_input = input("Choose course ID for inputing mark: ")
 		if course_input in courses:
 			x+=1
 			print(f'Course: {courses[course_input].course_name} - {course_input} - ETCs {courses[course_input].course_credit}')
 			for student in students:
-				# if len(students) == 0:
-					print(f'\tStudent: {students[student].student_name}')
-					input_mark = float(input(f'Mark: '))
-					temp_mark = {
-							"student": students[student],
-							"course" : courses[course_input],
-							"mark" : input_mark
-					}
-				# math.floor(input_mark * 10) / 10
-					mark = Mark(student,course_input,input_mark)
-					# # mk = (student,course_input)
-					# self.mark[input_mark] = mak
-					temp_mark[(student,course_input)] = temp_mark
-				# else:
-				# 	print("Student does not exist.")
-				# 	break
-		else:
-			print("Course does not exist!")
+				print(f'\tStudent: {students[student].student_name}')
+				input_mark = float(input(f'Mark: '))
+				math.floor(input_mark * 10) / 10
+				mark = Mark(student,course_input,input_mark)
+				# # mk = (student,course_input)
+				# self.mark[input_mark] = mak
+				# mark[(student,course_input)] = temp_mark
+				temp[(student,course_input,input_mark)] = mark
+		# else:
+		# 	print("Course does not exist!")
 	print(" ")
-	return mark
+	return temp
