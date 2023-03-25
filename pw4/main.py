@@ -18,7 +18,7 @@ class Main():
         self.student = {}   
         self.course = {}
         self.mark = {}
-        # self.gpa = {}
+        self.gpa = {}
     
     # Adding students
     def add_student(self):
@@ -46,25 +46,29 @@ class Main():
 
     def calculate_GPA(self):
         temp_credit = []
+        print("Course List:")
+        print("Name\t|\tCredits")
+        print("-"*50)
         for course in self.course:
-            print(f'Course: {self.course[course].course_name}, Credits: {self.course[course].course_credit}')
-            temp_credit.append(self.course[course].course_credit)
+            print(f'{self.course[course].course_name}\t|\t{self.course[course].course_credit}')
+            temp_credit.append(self.course[course] .course_credit)
         x = 1
-        while x <= len(self.student):
-            stu_id = input("Enter student ID you want to calculate GPA for: ")
-            if stu_id in self.student:
-                x += 1
-                temp_mark = []
-                for mark in self.mark:
-                    mark = self.mark[mark]
-                    if stu_id == mark.student:
-                        # x += 1
-                        temp_mark.append(mark.mark)
-                        # temp_mark = []
-                        # marks = np.append(temp_mark,[mark.mark])
-            else:
-                x=1
-                print("Student ID not found, please re-enter")           
+        # while x <= len(self.student):
+        #     stu_id = input("Enter student ID you want to calculate GPA for: ")
+        #     if stu_id in self.student:
+        #         x += 1
+        for stu_id in self.student:
+            temp_mark = []
+            for mark in self.mark:
+                mark = self.mark[mark]
+                if stu_id == mark.student:
+                    # x += 1
+                    temp_mark.append(mark.mark)
+                    # temp_mark = []
+                    # marks = np.append(temp_mark,[mark.mark])
+            # else:
+            #     x=1
+            #     print("Student ID not found, please re-enter")           
             temp1 = np.empty(0)
             temp2 = np.empty(0)
             mark_real = np.append(temp1,temp_mark)
@@ -73,10 +77,11 @@ class Main():
             self.gpa[stu_id] = gpa
             self.student[stu_id].student_gpa = gpa
             math.floor(gpa*10)/10
-            print(f'The GPA of student {self.student[stu_id].student_name}  ID: {self.student[stu_id].student_id} is {gpa}')
+            print(f'The GPA of student {self.student[stu_id].student_name}- ID: {self.student[stu_id].student_id} is {gpa}')
             print(" ")
 
-    def show_GPA(self):
+    def rank_student(self):
+        self.calculate_GPA()
         temp_credit = []
         for course in self.course:
             temp_credit.append(self.course[course].course_credit)
@@ -94,15 +99,19 @@ class Main():
         temp2 = np.empty(0)
         mark_real = np.append(temp1,temp_mark)
         credit_real = np.append(temp2,temp_credit)
-        self.gpa = np.average(mark_real,weights=credit_real)
+        self.gpagpa = np.average(mark_real,weights=credit_real)
+
         self.gpa = dict(sorted(self.gpa.items(), key=lambda item: item[1], reverse=True))
         # for stu_id in self.gpa:
         #     print(f"StudentID: {stu_id.gpa}, GPA: {gpa}")
         print("Student rankings: ")
-        print("-"*30)
-        print(f'Student ID\t\tStudent Name \t\tGPA')
+        print("-"*50)
+        print(f'ID\t\tStudent Name \t\tGPA')
         for student in self.gpa:
             print(f'{self.student[student].student_id}\t\t{self.student[student].student_name}\t\t{self.gpa[student]}')
+#create a teacher Object that manages the student marks
+        
+
 
 def wait():
     m.getch()
@@ -128,8 +137,8 @@ while True:
     print("[4]. List courses")
     print("[5]. Input marks")
     print("[6]. Show marks")
-    print("[7]. Calculate GPA")
-    print("[8]. Student rankings")
+    print("[7]. Student rankings")
+    print("[8]. Exit")
 
     
     choice = input_choice()
@@ -170,10 +179,12 @@ while True:
         wait()
         clear = os.system('cls')
     elif choice == 7:
-        pass
+        teacher.rank_student()
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
     elif choice == 8:
-        pass
-    elif choice == 9:
+        print("Exiting program...")
         break
 
  
