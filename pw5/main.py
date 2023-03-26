@@ -1,6 +1,7 @@
 from domains.student import Student
 from domains.course import Course
 from domains.mark import Mark
+from domains import utils
 # import input as ip
 # import output as op
 from input import input_students,input_courses,input_marks
@@ -43,6 +44,11 @@ class Main():
     def display_marks(self):
         show_marks(self.mark,self.course)
         # print(self.mark)
+    
+    def check_if_data_exist(self):
+        if os.path.exists("class.dat"):
+            print("Data exists.")
+
 
     def calculate_GPA(self):
         temp_credit = []
@@ -128,6 +134,8 @@ def input_choice():
 if __name__ == '__main__':
     teacher = Main()
 
+
+utils.delete_txt()
 while True:
     # clear()
     print("\nStudent Management System")
@@ -185,6 +193,8 @@ while True:
         clear = os.system('cls')
     elif choice == 8:
         print("Exiting program...")
+        utils.compress_data()
+        utils.delete_txt()
         break
 
  
