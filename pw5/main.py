@@ -48,49 +48,60 @@ class Main():
     def check_if_data_exist(self):
         if os.path.exists("class.dat"):
             print("Data exists.")
+            print("Extracting data")
+            utils.extract_data()
+            self.student = utils.load_students()
+            self.course = utils.load_courses()
+            self.mark = utils.load_marks()
+        else:
+            print("Data does not exist.")
 
+    # def calculate_GPA(self):
+    #     # temp_credit = []
+    #     # print("Course List:")
+    #     # print("Name\t|\tCredits")
+    #     # print("-"*50)
 
-    def calculate_GPA(self):
+    #     # for course in self.course:
+    #     #     print(f'{self.course[course].course_name}\t|\t{self.course[course].course_credit}')
+    #     #     temp_credit.append(self.course[course] .course_credit)
+
+    #     for stu_id in self.student:
+    #         temp_mark = []
+    #         for mark in self.mark:
+    #             mark = self.mark[mark]
+    #             if stu_id == mark.student:
+    #                 temp_mark.append(mark.mark)
+           
+    #         temp1 = np.empty(0)
+    #         temp2 = np.empty(0)
+    #         mark_real = np.append(temp1,temp_mark)
+    #         credit_real = np.append(temp2,temp_credit)
+
+    #         gpa = np.average(mark_real,weights=credit_real)
+    #         self.gpa[stu_id] = gpa
+    #         self.student[stu_id].student_gpa = gpa
+    #         math.floor(gpa*10)/10
+
+    #         print(f'The GPA of student {self.student[stu_id].student_name}- ID: {self.student[stu_id].student_id} is {gpa}')
+    #         print(" ")
+
+    def rank_student(self):
         temp_credit = []
         print("Course List:")
         print("Name\t|\tCredits")
         print("-"*50)
+
         for course in self.course:
             print(f'{self.course[course].course_name}\t|\t{self.course[course].course_credit}')
-            temp_credit.append(self.course[course] .course_credit)
-        x = 1
-        # while x <= len(self.student):
-        #     stu_id = input("Enter student ID you want to calculate GPA for: ")
-        #     if stu_id in self.student:
-        #         x += 1
-        for stu_id in self.student:
-            temp_mark = []
-            for mark in self.mark:
-                mark = self.mark[mark]
-                if stu_id == mark.student:
-                    # x += 1
-                    temp_mark.append(mark.mark)
-                    # temp_mark = []
-                    # marks = np.append(temp_mark,[mark.mark])
-            # else:
-            #     x=1
-            #     print("Student ID not found, please re-enter")           
-            temp1 = np.empty(0)
-            temp2 = np.empty(0)
-            mark_real = np.append(temp1,temp_mark)
-            credit_real = np.append(temp2,temp_credit)
-            gpa = np.average(mark_real,weights=credit_real)
-            self.gpa[stu_id] = gpa
-            self.student[stu_id].student_gpa = gpa
-            math.floor(gpa*10)/10
-            print(f'The GPA of student {self.student[stu_id].student_name}- ID: {self.student[stu_id].student_id} is {gpa}')
-            print(" ")
-
-    def rank_student(self):
-        self.calculate_GPA()
-        temp_credit = []
-        for course in self.course:
             temp_credit.append(self.course[course].course_credit)
+
+        # self.calculate_GPA()
+        
+        # temp_credit = []
+        # for course in self.course:
+        #     temp_credit.append(self.course[course].course_credit)
+
         for stu_id in self.student:
             if stu_id in self.student:
                 temp_mark = []
@@ -100,24 +111,24 @@ class Main():
                         temp_mark.append(mark.mark)
             else:
                 x=1
-                print("Student ID not found, please re-enter")           
+                print("Student ID not found, please re-enter")    
+
         temp1 = np.empty(0)
         temp2 = np.empty(0)
         mark_real = np.append(temp1,temp_mark)
         credit_real = np.append(temp2,temp_credit)
-        self.gpagpa = np.average(mark_real,weights=credit_real)
+
+        self.gpa = np.average(mark_real,weights=credit_real)
+
 
         self.gpa = dict(sorted(self.gpa.items(), key=lambda item: item[1], reverse=True))
-        # for stu_id in self.gpa:
-        #     print(f"StudentID: {stu_id.gpa}, GPA: {gpa}")
+
         print("Student rankings: ")
         print("-"*50)
         print(f'ID\t\tStudent Name \t\tGPA')
+
         for student in self.gpa:
             print(f'{self.student[student].student_id}\t\t{self.student[student].student_name}\t\t{self.gpa[student]}')
-#create a teacher Object that manages the student marks
-        
-
 
 def wait():
     m.getch()
@@ -135,9 +146,11 @@ if __name__ == '__main__':
     teacher = Main()
 
 
-utils.delete_txt()
+utils.delete_if_exist()
+# teacher.check_if_data_exist()
 while True:
     # clear()
+    teacher.check_if_data_exist()
     print("\nStudent Management System")
     print("[1]. Input student")
     print("[2]. Input courses")
@@ -146,9 +159,10 @@ while True:
     print("[5]. Input marks")
     print("[6]. Show marks")
     print("[7]. Student rankings")
-    print("[8]. Exit")
+    print("[8]. Delete existing data")
+    print("[9]. Exit program")
 
-    
+
     choice = input_choice()
     print(" ")
     if choice == 1:
@@ -192,9 +206,16 @@ while True:
         wait()
         clear = os.system('cls')
     elif choice == 8:
+        utils.delete_data()
+        print("Press any key to continue")
+        wait()
+        clear = os.system('cls')
+    elif choice == 9:
         print("Exiting program...")
         utils.compress_data()
-        utils.delete_txt()
+        utils.delete_if_exist()
+        utils.delete_py_cache()
         break
 
- 
+
+    
