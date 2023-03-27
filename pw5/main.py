@@ -47,12 +47,15 @@ class Main():
     
     def check_if_data_exist(self):
         if os.path.exists("class.dat"):
-            print("Data exists.")
-            print("Extracting data")
-            utils.extract_data()
-            self.student = utils.load_students()
-            self.course = utils.load_courses()
-            self.mark = utils.load_marks()
+            if os.path.exists("students.txt") and os.path.exists("courses.txt") and os.path.exists("marks.txt"):
+                pass
+            else:
+                print("Data exists.")
+                print("Extracting data")
+                utils.extract_data()
+                self.student = utils.load_students()
+                self.course = utils.load_courses()
+                self.mark = utils.load_marks()
         else:
             print("Data does not exist.")
 
@@ -91,7 +94,6 @@ class Main():
         print("Course List:")
         print("Name\t|\tCredits")
         print("-"*50)
-
         for course in self.course:
             print(f'{self.course[course].course_name}\t|\t{self.course[course].course_credit}')
             temp_credit.append(self.course[course].course_credit)
@@ -101,34 +103,45 @@ class Main():
         # temp_credit = []
         # for course in self.course:
         #     temp_credit.append(self.course[course].course_credit)
+        # self.checkType(temp_credit)
 
         for stu_id in self.student:
-            if stu_id in self.student:
-                temp_mark = []
-                for mark in self.mark:
-                    mark = self.mark[mark]
-                    if stu_id == mark.student:
-                        temp_mark.append(mark.mark)
-            else:
-                x=1
-                print("Student ID not found, please re-enter")    
+            temp_mark = []
+            for mark in self.mark:
+                mark = self.mark[mark]
+                if stu_id == mark.student:
+                    temp_mark.append(mark.mark)
 
-        temp1 = np.empty(0)
-        temp2 = np.empty(0)
-        mark_real = np.append(temp1,temp_mark)
-        credit_real = np.append(temp2,temp_credit)
+            # self.checkType(temp_mark)
+            temp1 = np.empty(0)
+            temp2 = np.empty(0)
+            markreal = np.append(temp1,temp_mark)
+            creditreal = np.append(temp2,temp_credit)
+            
+            mark_real = markreal.astype(np.float64)
+            credit_real = creditreal.astype(np.int32)
 
-        self.gpa = np.average(mark_real,weights=credit_real)
-
+            gpa = np.average(mark_real,weights=credit_real)
+            self.gpa[stu_id] = gpa
 
         self.gpa = dict(sorted(self.gpa.items(), key=lambda item: item[1], reverse=True))
 
-        print("Student rankings: ")
+        print("\nStudent rankings: ")
         print("-"*50)
         print(f'ID\t\tStudent Name \t\tGPA')
 
         for student in self.gpa:
             print(f'{self.student[student].student_id}\t\t{self.student[student].student_name}\t\t{self.gpa[student]}')
+
+    def checkType(self,a_list):
+        for element in a_list:
+            if isinstance(element, int):
+                print("It's an Integer")
+            if isinstance(element, str):
+                print("It's an string")
+            if isinstance(element, float):
+                print("It's an floating number")
+
 
 def wait():
     m.getch()

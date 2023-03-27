@@ -1,6 +1,6 @@
 import os
-import subprocess
 import zipfile
+import numpy as np
 from domains.student import Student
 from domains.course import Course
 from domains.mark import Mark
@@ -28,8 +28,8 @@ def delete_if_exist():
     #     else:
     #         pass
 def delete_data():
-    delete_if_exist()
     if os.path.exists("class.dat") and os.path.exists("data.zip"):
+        delete_if_exist()
         os.remove("class.dat")
     # if os.path.exists("data.zip"):
         os.remove("data.zip")
@@ -39,17 +39,21 @@ def delete_data():
 
 
 def compress_data():
-    with open("class.dat","wb") as data_file:
-        with zipfile.ZipFile('data.zip','w',compression=zipfile.ZIP_DEFLATED) as my_zip:
-            for file in os.listdir():
-                if file.endswith(".txt"):
-                    my_zip.write(file)
+    if os.path.exists("students.txt") and os.path.exists("courses.txt") and os.path.exists("marks.txt"):
+        with open("class.dat","wb") as data_file:
+            with zipfile.ZipFile('data.zip','w',compression=zipfile.ZIP_DEFLATED) as my_zip:
+                for file in os.listdir():
+                    if file.endswith(".txt"):
+                        my_zip.write(file)
+        
 
 def extract_data():
-    with open("class.dat","wb") as data_file:
-        with zipfile.ZipFile('data.zip','r') as my_zip:
-            my_zip.extractall()
-
+    if os.path.exists("class.dat"):                                                                
+        with open("class.dat","wb"):
+            with zipfile.ZipFile('data.zip','r') as my_zip:
+                my_zip.extractall()
+    else:
+        pass
 
 
 def load_students():
@@ -68,6 +72,7 @@ def load_courses():
         lines = course_file.readlines() 
         for line in lines:
             data = line.strip().split(",")
+
             course = Course(data[0],data[1],data[2])
             temp[data[0]] = course
     return temp
@@ -79,7 +84,6 @@ def load_marks():
         for line in lines:
             data = line.strip().split(",")
             mark = Mark(data[0],data[1],data[2])
-
             temp[(data[0],data[1],data[2])] = mark
     return temp
 
